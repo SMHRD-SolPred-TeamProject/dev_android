@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SolarPred">
         <activity
-            android:name=".GraphActivity"
+            android:name=".SplashActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -19,7 +19,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".GraphActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
