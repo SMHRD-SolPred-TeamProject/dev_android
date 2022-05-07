@@ -85,7 +85,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String Id = loginId.getText().toString();
                 String Pw = loginPw.getText().toString();
-                try {
+                String userId = "admin";
+                String userPw = "1234";
+               /* try {
                 String result  = new CustomTask().execute(Id,Pw,"login").get();
                 if(result.equals("true")) {
                     Toast.makeText(LoginActivity.this,"로그인",Toast.LENGTH_SHORT).show();
@@ -93,17 +95,26 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if(result.equals("false")) {
-                    Toast.makeText(LoginActivity.this,"아이디 또는 비밀번호가 틀렸음",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"아이디 또는 비밀번호가 틀렸습니다.",Toast.LENGTH_SHORT).show();
                     loginId.setText("");
                     loginPw.setText("");
                 } else if(result.equals("noId")) {
-                    Toast.makeText(LoginActivity.this,"존재하지 않는 아이디",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"존재하지 않는 아이디입니다.",Toast.LENGTH_SHORT).show();
                     loginId.setText("");
                     loginPw.setText("");
                 }
             }catch (Exception e){
 
             }
+            */
+            if(Id.equals(userId)&&Pw.equals(userPw)){
+                Intent intent = new Intent(LoginActivity.this,GraphActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+            }
+
 
             };
         });

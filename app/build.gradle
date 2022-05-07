@@ -37,4 +37,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //viewpager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha04'
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // Converter ( JSON 타입 결과를 객체로 매핑 )
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //DrawerLayout
+    implementation "androidx.drawerlayout:drawerlayout:1.1.1"
+    implementation "com.android.volley:volley-cronet:1.2.1"
 }
