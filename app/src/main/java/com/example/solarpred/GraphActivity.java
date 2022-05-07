@@ -1,6 +1,7 @@
 package com.example.solarpred;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,6 +13,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,13 +45,14 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 
 public class GraphActivity extends AppCompatActivity {
-    private static final int NUM_PAGES = 2;
     private ViewPager2 pager;
     private FragmentStateAdapter pagerAdapter;
     RequestQueue queue;
     StringRequest request;
     TextView tvCity, tvWeather, tvTemp, tvWind;
     ImageView imgWeather;
+    private DrawerLayout mDrawerLayout;
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,102 +134,83 @@ public class GraphActivity extends AppCompatActivity {
         queue.add(request);
 
 
-/*
-
-        public void settingSideNavBar()
-        {
-            // 툴바 생성
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-
-            // 사이드 메뉴를 오픈하기위한 아이콘 추가
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-
-            // 사이드 네브바 구현
-            DrawerLayout drawLayout = findViewById(R.id.);
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
-            ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                    GraphActivity.this,
-                    drawLayout,
-                    toolbar,
-                    R.string.open,
-                    R.string.closed
-            );
-
-            // 사이드 네브바 클릭 리스너
-            drawLayout.addDrawerListener(actionBarDrawerToggle);
-
-            // -> 사이드 네브바 아이템 클릭 이벤트 설정
-            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                    int id = menuItem.getItemId();
-
-                    if (id == R.id.menu_item1){
-                        Toast.makeText(getApplicationContext(), "메뉴아이템 1 선택", Toast.LENGTH_SHORT).show();
-                    }else if(id == R.id.menu_item2){
-                        Toast.makeText(getApplicationContext(), "메뉴아이템 2 선택", Toast.LENGTH_SHORT).show();
-                    }else if(id == R.id.menu_item3){
-                        Toast.makeText(getApplicationContext(), "메뉴아이템 3 선택", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
-                    return true;
-                }
-            });
-
-        }
-
-
-        @Override
-        public void onBackPressed() {
-            DrawerLayout drawer = findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
-            }
-        }
-        final apiTest at = new apiTest();
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    at.func();
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-*/
         pager = findViewById(R.id.pager);
         pagerAdapter = new ScreeSlidePagerAdapter(this);
         pager.setAdapter(pagerAdapter);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
+        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu); //뒤로가기 버튼 이미지 지정
 
-        } //페이저와 프래그먼트 이어주기
-        class ScreeSlidePagerAdapter extends FragmentStateAdapter {
-            public ScreeSlidePagerAdapter(FragmentActivity fa) {
-                super(fa);
-            }
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-            @NonNull
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public Fragment createFragment(int position) {//포지션마다 있을 fragment설정
-                if (position == 0) return new Fragment1();
-                else if (position == 1) return new Fragment2();
-                else return new Fragment3();
-            }
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawers();
 
-            @Override
-            public int getItemCount() {
-                return NUM_PAGES; //페이지 수 지정.
+                int id = menuItem.getItemId();
+                String title = menuItem.getTitle().toString();
+
+                if(id == R.id.darkMode){
+                    Toast.makeText(context, title + "다크모드", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.asTool){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                    startActivity(intent);
+                    Toast.makeText(context, title + ": 게시판으로 이동", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.logout){
+                    Toast.makeText(context, title + ": 로그아웃", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ // 왼쪽 상단 버튼 눌렀을 때
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
             }
         }
+        return super.onOptionsItemSelected(item);
     }
+
+
+    } //페이저와 프래그먼트 이어주기
+    class ScreeSlidePagerAdapter extends FragmentStateAdapter {
+        private static final int NUM_PAGES = 2;
+
+        public ScreeSlidePagerAdapter(FragmentActivity fa) {
+            super(fa);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {//포지션마다 있을 fragment설정
+            if (position == 0) return new Fragment1();
+            else if (position == 1) return new Fragment2();
+            else return new Fragment3();
+        }
+
+        @Override
+        public int getItemCount() {
+            return NUM_PAGES; //페이지 수 지정.
+        }
+    };
+
+
+
+
+//}
+
+

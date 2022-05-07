@@ -13,6 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText loginId, loginPw;
     Button btnLogin;
 
+    RequestQueue queue;
+    StringRequest request;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         loginPw = findViewById(R.id.loginPw);
         btnLogin = findViewById(R.id.btnLogin);
 
-        class CustomTask extends AsyncTask<String, Void, String> {
+       /* class CustomTask extends AsyncTask<String, Void, String> {
             String sendMsg, receiveMsg;
             @Override
             protected String doInBackground(String... strings) {
@@ -72,6 +82,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        */
+
+        queue = Volley.newRequestQueue(LoginActivity.this);
+
         findUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +97,26 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String Id = loginId.getText().toString();
+
+                int method = Request.Method.POST;
+                String url = "서버연결url:포트번호/api/login";
+
+                request = new StringRequest(method, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }
+                );
+
+               String Id = loginId.getText().toString();
                 String Pw = loginPw.getText().toString();
                 String userId = "admin";
                 String userPw = "1234";
