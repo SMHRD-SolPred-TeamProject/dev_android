@@ -4,12 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/gradiant.xml" value="0.2035" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/gradient_1.xml" value="0.1" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/ic_logout.xml" value="0.1955" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/ic_menu.xml" value="0.252" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/ic_moo_b.xml" value="0.1635" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/ic_moon_l.xml" value="0.1635" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/ic_wind.xml" value="0.103" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/drawable/menu.xml" value="0.367" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/layout-land/activity_graph.xml" value="0.5177083333333333" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/layout-land/activity_login.xml" value="0.5177083333333333" />
+        <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/layout-land/fragment1.xml" value="0.5177083333333333" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/layout/activity_graph.xml" value="0.45" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/layout/activity_intro.xml" value="0.25" />
         <entry key="..\:/Users/smhrd/AndroidStudioProjects/SolarPred/app/src/main/res/layout/activity_login.xml" value="0.33" />

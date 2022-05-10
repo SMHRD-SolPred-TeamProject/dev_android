@@ -10,7 +10,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText loginId, loginPw;
     Button btnLogin;
     CheckBox autoLogin;
+    Context context;
+    Boolean chbool = true;
 
     RequestQueue queue;
     StringRequest request;
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        context = this;
 
         findUser = findViewById(R.id.findUser);
         loginId = findViewById(R.id.loginId);
@@ -63,14 +66,49 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         autoLogin = findViewById(R.id.autoLogin);
 
+        Intent chIntent = getIntent();
+        String ch = chIntent.getStringExtra("checkBox");
+        chbool = Boolean.parseBoolean(ch);
+        System.out.println(chbool); //false
+
+        String msg = chIntent.getStringExtra("message");
+        System.out.println("msg = " + msg);
+
+        autoLogin.setChecked(chbool);
+
         queue = Volley.newRequestQueue(LoginActivity.this);
 
+        //체크박스 체크유무
+        boolean tf = PreferenceManager.getBoolean(context,"check");
+        if(tf){
+            loginId.setText(PreferenceManager.getString(context,"id"));
+            loginPw.setText(PreferenceManager.getString(context,"pw"));
+            autoLogin.setChecked(true);
+        }
+        if(autoLogin.isChecked() && chbool ==false) {
+            Intent intent = new Intent(LoginActivity.this, GraphActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        autoLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(((CheckBox)view).isChecked()){
+                    PreferenceManager.setString(context, "id", loginId.getText().toString()); //id 저장
+                    PreferenceManager.setString(context, "pw", loginPw.getText().toString()); //pw 저장
+                    PreferenceManager.setBoolean(context,"check",autoLogin.isChecked()); //현재 체크박스 상태
+                }else{
+                    PreferenceManager.setBoolean(context,"check", autoLogin.isChecked()); //현재 체크박스상태
+                    PreferenceManager.clear(context); //로그인 정보 삭제
+                }
+            }
+        });
 
 
         findUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/"));
                 startActivity(browser);
             }
         });
@@ -78,6 +116,17 @@ public class LoginActivity extends AppCompatActivity {
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    PreferenceManager.setString(context,"id",loginId.getText().toString()); //키값 id
+                    PreferenceManager.setString(context,"pw",loginPw.getText().toString()); //키갑 pw
+
+                    String checkid = PreferenceManager.getString(context,"id"); //id 키값 불러오기
+                    String checkPw = PreferenceManager.getString(context,"pw"); //id 키값 불러오기
+
+                    if(TextUtils.isEmpty(checkid)||TextUtils.isEmpty(checkPw)){
+                        Toast.makeText(LoginActivity.this, "아이디/암호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+
+
 
                     int method = Request.Method.POST;
                     String url = "http://119.200.31.177:9090/solarpred/api/login";
@@ -103,11 +152,16 @@ public class LoginActivity extends AppCompatActivity {
 
                                 if (memberList.get(0).getMem_id().equals(loginId.getText().toString()) && memberList.get(0).getMem_pw().equals(loginPw.getText().toString())) {
                                     Toast.makeText(LoginActivity.this,
-                                            "로그인성공>> " + response,
+                                            "로그인성공 " ,
                                             Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LoginActivity.this, GraphActivity.class);
+                                    startActivity(intent);
+                                    finish();
 
+                                }else if(memberList.get(0).getMem_id().equals(loginId.getText().toString()) || memberList.get(0).getMem_pw().equals(loginPw.getText().toString())){
+                                    Toast.makeText(LoginActivity.this, "아이디/패스워드를 확인해주세요", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "로그인실패", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "존재하지 않는 아이디입니다", Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (JSONException e) {

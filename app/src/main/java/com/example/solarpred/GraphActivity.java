@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ import java.util.concurrent.Executors;
 public class GraphActivity extends AppCompatActivity {
     private ViewPager2 pager;
     private FragmentStateAdapter pagerAdapter;
+    CheckBox autoLogin;
     RequestQueue queue;
     StringRequest request;
     TextView tvCity, tvWeather, tvTemp, tvWind;
@@ -59,6 +61,7 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
 
+        autoLogin = findViewById(R.id.autoLogin);
         tvCity = findViewById(R.id.tvCity);
         tvWeather =findViewById(R.id.tvWeather);
         tvTemp = findViewById(R.id.tvTemp);
@@ -161,12 +164,17 @@ public class GraphActivity extends AppCompatActivity {
                     Toast.makeText(context, title + "다크모드", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.asTool){
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/"));
                     startActivity(intent);
                     Toast.makeText(context, title + ": 게시판으로 이동", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.logout){
                     Toast.makeText(context, title + ": 로그아웃", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(GraphActivity.this, LoginActivity.class);
+                    intent.putExtra("checkBox","true");
+                    intent.putExtra("message","성공");
+                    startActivity(intent);
+                    finish();
                 }
 
                 return true;
