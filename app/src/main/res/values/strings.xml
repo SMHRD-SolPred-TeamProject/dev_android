@@ -8,4 +8,5 @@
     <string name="edtPw">비밀번호를 입력해주세요</string>
     <string name="findUser">아이디 비밀번호 찾기</string>
     <string name="btnLogin">로그인</string>
+    <string name="autoLogin">자동로그인</string>
 </resources>
