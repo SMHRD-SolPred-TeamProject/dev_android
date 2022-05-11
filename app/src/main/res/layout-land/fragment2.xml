@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_1"
+    android:background="#F4B960"
     android:orientation="vertical"
     tools:context=".Fragment1">
 
@@ -12,9 +12,8 @@
         android:id="@+id/tvAOD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
-        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,24 +24,31 @@
         android:id="@+id/cdPre"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvAOD"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintHorizontal_bias="0.708"
         app:layout_constraintStart_toEndOf="@+id/tvAOD"
-        app:layout_constraintTop_toTopOf="@+id/tvAOD" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="415dp"
-        android:layout_height="551dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAOD">
+        app:layout_constraintTop_toTopOf="@+id/guideline3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,45 +56,31 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cdGraph3"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="260dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 app:cardCornerRadius="5dp">
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/Chart"
-                android:layout_width="match_parent"
-                android:layout_height="390dp"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tvRealAOD"
+                        android:id="@+id/tvRealPre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/realTimeAOD"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-
+                        android:text="@string/realTimePre"
+                        tools:layout_editor_absoluteX="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cdGraph4"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="260dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
                 app:cardCornerRadius="5dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,14 +88,11 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tvRealMerge"
+                        android:id="@+id/tvMergePre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/mergeAOD"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:text="@string/mergePre"
+                        tools:layout_editor_absoluteX="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

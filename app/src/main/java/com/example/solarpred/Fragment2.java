@@ -17,8 +17,9 @@ public class Fragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment1, container, false);
-        TextView tvDate = (TextView) v.findViewById(R.id.tvDate);
-        tvDate.setText("TOMMORROW");
+        TextView tvDate = (TextView) v.findViewById(R.id.tvAOD);
+        tvDate.setText("+1 Day");
+
         return v;
     }
 }

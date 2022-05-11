@@ -12,23 +12,25 @@
         android:id="@+id/tvAOD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="84dp"
         android:text="TextView"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.205"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdGraph1"
-        android:layout_width="360dp"
+        android:layout_width="320dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="@+id/tvAOD"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toStartOf="@+id/tvAOD"
         app:layout_constraintTop_toBottomOf="@+id/tvAOD">
 
@@ -36,10 +38,12 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdGraph2"
-        android:layout_width="360dp"
+        android:layout_width="320dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/cdGraph1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cdGraph1"
         app:layout_constraintTop_toBottomOf="@+id/cdGraph1" />
 
@@ -47,22 +51,25 @@
         android:id="@+id/tvAble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="TextView"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/cdGraph2"
-        app:layout_constraintStart_toStartOf="@+id/cdGraph2"
-        app:layout_constraintTop_toBottomOf="@+id/cdGraph2" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvAOD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintStart_toEndOf="@+id/tvAOD"
+        app:layout_constraintTop_toTopOf="@+id/tvAOD"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imgAble"
-        android:layout_width="250dp"
-        android:layout_height="155dp"
-        android:layout_marginTop="92dp"
+        android:layout_width="285dp"
+        android:layout_height="173dp"
+        android:layout_marginTop="28dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="@+id/tvAble"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="@+id/tvAble"
         app:layout_constraintTop_toBottomOf="@+id/tvAble" />
 

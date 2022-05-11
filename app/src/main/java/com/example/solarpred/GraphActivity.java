@@ -34,7 +34,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
+
 
 public class GraphActivity extends AppCompatActivity {
     private ViewPager2 pager;
@@ -67,6 +67,13 @@ public class GraphActivity extends AppCompatActivity {
         tvTemp = findViewById(R.id.tvTemp);
         tvWind = findViewById(R.id.tvWind);
         imgWeather = findViewById(R.id.imgWeather);
+
+        pager = findViewById(R.id.pager);
+        pager.setAdapter(pagerAdapter);
+
+        pager = findViewById(R.id.pager);
+        pager.setAdapter(pagerAdapter);
+
 
         queue = Volley.newRequestQueue(GraphActivity.this);
         int method =Request.Method.GET;
@@ -196,7 +203,7 @@ public class GraphActivity extends AppCompatActivity {
 
     } //페이저와 프래그먼트 이어주기
     class ScreeSlidePagerAdapter extends FragmentStateAdapter {
-        private static final int NUM_PAGES = 2;
+        private static final int NUM_PAGES = 3;
 
         public ScreeSlidePagerAdapter(FragmentActivity fa) {
             super(fa);
@@ -214,6 +221,7 @@ public class GraphActivity extends AppCompatActivity {
         public int getItemCount() {
             return NUM_PAGES; //페이지 수 지정.
         }
+
     };
 
 
