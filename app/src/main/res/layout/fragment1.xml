@@ -58,11 +58,6 @@
                 android:layout_marginBottom="15dp"
                 app:cardCornerRadius="5dp">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/Chart"
-                android:layout_width="match_parent"
-                android:layout_height="390dp"/>
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -77,6 +72,12 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/Chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvRealAOD" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
