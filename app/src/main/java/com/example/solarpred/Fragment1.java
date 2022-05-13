@@ -2,6 +2,7 @@ package com.example.solarpred;
 
 import static android.graphics.Color.WHITE;
 import static android.graphics.Color.blue;
+import static android.graphics.Color.valueOf;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,11 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -21,7 +26,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
@@ -29,9 +36,13 @@ import java.util.ArrayList;
 public class Fragment1 extends Fragment {
     public Fragment1() { // Required empty public constructor
     }
-    private LineChart lineChart;
 
+    private LineChart lineChart;
+    private Thread thread;
+    double sampleDate[] = new double[]{1.2f,2.4f,2.8f,3.6f,6.6f,8.8f};
     float[] fs;
+    private WebView webvw;
+    private WebSettings webSet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,11 +51,20 @@ public class Fragment1 extends Fragment {
         TextView tvDate = (TextView) v.findViewById(R.id.tvAOD);
 
         tvDate.setText("Today");
+
         ArrayList<Entry> entry_chart1 = new ArrayList<>(); // 데이터를 담을 Arraylist
         ArrayList<Entry> entry_chart2 = new ArrayList<>();
 
         lineChart = v.findViewById(R.id.Chart);
+        webvw = v.findViewById(R.id.webvw);
 
+        webvw.setWebViewClient(new WebViewClient());
+
+        webSet = webvw.getSettings();
+        webSet.setJavaScriptEnabled(true);
+
+        webvw.loadUrl("http://119.200.31.177:9090/solarpred/");
+/*
         lineChart.getDescription().setEnabled(true);
         Description des = lineChart.getDescription();
         des.setEnabled(true);
@@ -68,15 +88,24 @@ public class Fragment1 extends Fragment {
 
         //Legend
         Legend l = lineChart.getLegend();
-        l.setEnabled(true);
+        l.setEnabled(false);
         l.setFormSize(10f); // set the size of the legend forms/shapes
         l.setTextSize(12f);
         l.setTextColor(Color.WHITE);
 //X축
         XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.TOP);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(WHITE);
         xAxis.setTextSize(10f);
         xAxis.setDrawGridLines(true);
+
+      //  String sysTime[] = new String[]{"22", "14", "21", "56"};
+        xAxis.setSpaceMax(60f);
+        xAxis.setSpaceMin(2f);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+       // GraphAxisValueFormatter formatter = new GraphAxisValueFormatter(sysTime);
+       // xAxis.setValueFormatter(formatter);
         xAxis.setValueFormatter(new MyFormatter());
 
 //Y축
@@ -89,9 +118,14 @@ public class Fragment1 extends Fragment {
         YAxis rightAxis = lineChart.getAxisRight();
         rightAxis.setEnabled(false);
 
+        lineChart.setVisibleXRange(5,5);
 
-        addEntry(1.2);
+        LineData data = new LineData();
+        lineChart.setData(data);
+    //    addEntry(sampleDate[0]);
         lineChart.invalidate();
+
+        feedMultiple();
 
 
 /*
@@ -138,32 +172,52 @@ public class Fragment1 extends Fragment {
         return v;
     }
 
-    private void addEntry(double num) {
-
+//    private void addEntry(double num) {
+//
+//        LineData data = lineChart.getData();
+//
+//        if (data == null) {
+//            data = new LineData();
+//            lineChart.setData(data);
+//        }
+//
+//        ILineDataSet set = data.getDataSetByIndex(0);
+//
+//        if (set == null) {
+//            set = createSet();
+//            data.addDataSet(set);
+//        }
+//
+//        data.addEntry(new Entry((float) set.getEntryCount(), (float) num), 0);
+//        data.notifyDataChanged();
+//
+//        // let the chart know it's data has changed
+//        lineChart.notifyDataSetChanged();
+//
+//        lineChart.setVisibleXRangeMaximum(150);
+//        // this automatically refreshes the chart (calls invalidate())
+//        lineChart.moveViewTo(data.getEntryCount(), 50f, YAxis.AxisDependency.LEFT);
+//
+//    }
+/*
+    private void addEntry(){
         LineData data = lineChart.getData();
+        if(data != null){
+            ILineDataSet set = data.getDataSetByIndex(0);
 
-        if (data == null) {
-            data = new LineData();
-            lineChart.setData(data);
+            if(set == null){
+                set = createSet();
+                data.addDataSet(set);
+            }
+            data.addEntry(new Entry(set.getEntryCount(),(float) (Math.random()*40)+30f),0);
+            data.notifyDataChanged();
+
+            lineChart.notifyDataSetChanged();
+            lineChart.setVisibleXRangeMaximum(6);
+
+            lineChart.moveViewToX(data.getEntryCount());
+
         }
-
-        ILineDataSet set = data.getDataSetByIndex(0);
-
-        if (set == null) {
-            set = createSet();
-            data.addDataSet(set);
-        }
-
-        data.addEntry(new Entry((float)set.getEntryCount(), (float)num), 0);
-        data.notifyDataChanged();
-
-        // let the chart know it's data has changed
-        lineChart.notifyDataSetChanged();
-
-        lineChart.setVisibleXRangeMaximum(150);
-        // this automatically refreshes the chart (calls invalidate())
-        lineChart.moveViewTo(data.getEntryCount(), 50f, YAxis.AxisDependency.LEFT);
-
     }
 
     private LineDataSet createSet() {
@@ -172,13 +226,47 @@ public class Fragment1 extends Fragment {
         set.setLineWidth(1f);
         set.setDrawValues(false);
         set.setValueTextColor(getResources().getColor(android.R.color.black));
-        set.setColor(getResources().getColor(android.R.color.white));
+        set.setColor(getResources().getColor(android.R.color.holo_blue_light));
         set.setMode(LineDataSet.Mode.LINEAR);
         set.setDrawCircles(false);
         set.setHighLightColor(Color.rgb(190, 190, 190));
 
         return set;
     }
+
+    private void feedMultiple() {
+        if (thread != null) thread.interrupt();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                addEntry();
+            }
+        };
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    getActivity().runOnUiThread(runnable);
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (thread != null) thread.interrupt();
+    }
+*/
 }
+
+
+
 
 

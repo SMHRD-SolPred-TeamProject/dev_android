@@ -15,27 +15,24 @@ public class MyFormatter extends IndexAxisValueFormatter {
         System.out.println("value : " + value);
         int index = Math.round(value);
         String result = Integer.toString(index);
-       /* int values = (int) (value+10);
+        int values = (int) (index);
         Long sysTime = System.currentTimeMillis();
-
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.KOREA);
-
-        Calendar cal = Calendar.getInstance();
         String dTime = formatter.format(sysTime);
+        Calendar cal = Calendar.getInstance();
 
         try {
-
             Date date = formatter.parse(dTime);
             cal.setTime(date);
             cal.add(Calendar.SECOND,values);
 
         } catch (ParseException e) {
             e.printStackTrace();
-        }*/
+        }
 
-        //String time = formatter.format(cal);
-//        System.out.print("cal : " + time);
+        String time = formatter.format(cal.getTime());
+        System.out.print("cal : " + time + "values : "+values);
 
-        return result;
+        return dTime;
     }
 }

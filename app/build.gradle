@@ -46,5 +46,7 @@ dependencies {
     implementation "com.android.volley:volley-cronet:1.2.1"
 
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+    implementation 'com.github.highcharts:highcharts-android:10.0.0'
+
 }
 
