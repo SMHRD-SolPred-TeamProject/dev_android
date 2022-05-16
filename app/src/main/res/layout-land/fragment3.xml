@@ -12,64 +12,93 @@
         android:id="@+id/tvAOD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:text="TextView"
+        android:layout_marginTop="50dp"
+        android:text="@string/realTimeAOD"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.205"
+        app:layout_constraintHorizontal_bias="0.169"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdGraph1"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="68dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="@+id/tvAOD"
-        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintHorizontal_bias="0.655"
         app:layout_constraintStart_toStartOf="@+id/tvAOD"
         app:layout_constraintTop_toBottomOf="@+id/tvAOD">
 
-    </androidx.cardview.widget.CardView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cdGraph2"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="@+id/cdGraph1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/cdGraph1"
-        app:layout_constraintTop_toBottomOf="@+id/cdGraph1" />
+            <TextView
+                android:id="@+id/tvReal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvAble"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/Solution"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tvAOD"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.719"
+        app:layout_constraintHorizontal_bias="0.566"
         app:layout_constraintStart_toEndOf="@+id/tvAOD"
         app:layout_constraintTop_toTopOf="@+id/tvAOD"
         app:layout_constraintVertical_bias="0.0" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cdGraph2"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/imgSolution"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="@+id/imgSolution"
+        app:layout_constraintTop_toBottomOf="@+id/imgSolution" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvSolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
     <ImageView
-        android:id="@+id/imgAble"
+        android:id="@+id/imgSolution"
         android:layout_width="285dp"
         android:layout_height="173dp"
         android:layout_marginTop="28dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="@+id/tvAble"
-        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/tvAble"
         app:layout_constraintTop_toBottomOf="@+id/tvAble" />
 

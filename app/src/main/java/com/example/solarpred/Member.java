@@ -1,26 +1,31 @@
 package com.example.solarpred;
 
 public class Member {
+
     private String mem_id;
     private String mem_pw;
     private String mem_name;
+    private String mem_zipcode;
     private String mem_addr;
-    private String mem_addrDetail;
+    private String mem_addrdetail;
     private String mem_phone;
     private String mem_purchase;
     private String mem_type;
+    private String mem_joindate;
 
     public Member(){}
 
-    public Member(String mem_id, String mem_pw, String mem_name, String mem_addr, String mem_addrDetail, String mem_phone, String mem_purchase, String mem_type) {
+    public Member(String mem_id, String mem_pw, String mem_name, String mem_zipcode, String mem_addr, String mem_addrdetail, String mem_phone, String mem_purchase, String mem_type, String mem_joindate) {
         this.mem_id = mem_id;
         this.mem_pw = mem_pw;
         this.mem_name = mem_name;
+        this.mem_zipcode = mem_zipcode;
         this.mem_addr = mem_addr;
-        this.mem_addrDetail = mem_addrDetail;
+        this.mem_addrdetail = mem_addrdetail;
         this.mem_phone = mem_phone;
         this.mem_purchase = mem_purchase;
         this.mem_type = mem_type;
+        this.mem_joindate = mem_joindate;
     }
 
     public String getMem_id() {
@@ -47,6 +52,14 @@ public class Member {
         this.mem_name = mem_name;
     }
 
+    public String getMem_zipcode() {
+        return mem_zipcode;
+    }
+
+    public void setMem_zipcode(String mem_zipcode) {
+        this.mem_zipcode = mem_zipcode;
+    }
+
     public String getMem_addr() {
         return mem_addr;
     }
@@ -55,12 +68,12 @@ public class Member {
         this.mem_addr = mem_addr;
     }
 
-    public String getMem_addrDetail() {
-        return mem_addrDetail;
+    public String getMem_addrdetail() {
+        return mem_addrdetail;
     }
 
-    public void setMem_addrDetail(String mem_addrDetail) {
-        this.mem_addrDetail = mem_addrDetail;
+    public void setMem_addrdetail(String mem_addrdetail) {
+        this.mem_addrdetail = mem_addrdetail;
     }
 
     public String getMem_phone() {
@@ -85,5 +98,13 @@ public class Member {
 
     public void setMem_type(String mem_type) {
         this.mem_type = mem_type;
+    }
+
+    public String getMem_joindate() {
+        return mem_joindate;
+    }
+
+    public void setMem_joindate(String mem_joindate) {
+        this.mem_joindate = mem_joindate;
     }
 }

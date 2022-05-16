@@ -6,6 +6,8 @@ import static android.graphics.Color.valueOf;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +15,20 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -30,8 +42,19 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.mackhartley.roundedprogressbar.RoundedProgressBar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class Fragment1 extends Fragment {
     public Fragment1() { // Required empty public constructor
@@ -39,16 +62,25 @@ public class Fragment1 extends Fragment {
 
     private LineChart lineChart;
     private Thread thread;
-    double sampleDate[] = new double[]{1.2f,2.4f,2.8f,3.6f,6.6f,8.8f};
-    float[] fs;
-    private WebView webvw;
-    private WebSettings webSet;
+    RequestQueue queue;
+    StringRequest request;
+    TextView tvMerge, tvMergeKWh,tvPercent;
+    tHandler handler = new tHandler();
+    ProgressBar progressAOD;
+    int nowSec = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment1, container, false);
         TextView tvDate = (TextView) v.findViewById(R.id.tvAOD);
+        tvPercent = v.findViewById(R.id.tvPercent);
+        progressAOD = v.findViewById(R.id.progressAOD);
+        progressAOD.setIndeterminate(false);
+
+
+
+
 
         tvDate.setText("Today");
 
@@ -56,15 +88,6 @@ public class Fragment1 extends Fragment {
         ArrayList<Entry> entry_chart2 = new ArrayList<>();
 
         lineChart = v.findViewById(R.id.Chart);
-        webvw = v.findViewById(R.id.webvw);
-
-        webvw.setWebViewClient(new WebViewClient());
-
-        webSet = webvw.getSettings();
-        webSet.setJavaScriptEnabled(true);
-
-        webvw.loadUrl("http://119.200.31.177:9090/solarpred/");
-/*
         lineChart.getDescription().setEnabled(true);
         Description des = lineChart.getDescription();
         des.setEnabled(true);
@@ -74,17 +97,13 @@ public class Fragment1 extends Fragment {
 
         // touch gestures (false-비활성화)
         lineChart.setTouchEnabled(false);
-
 // scaling and dragging (false-비활성화)
         lineChart.setDragEnabled(false);
         lineChart.setScaleEnabled(false);
-
 //auto scale
         lineChart.setAutoScaleMinMaxEnabled(true);
-
 // if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(false);
-
 
         //Legend
         Legend l = lineChart.getLegend();
@@ -98,7 +117,6 @@ public class Fragment1 extends Fragment {
         xAxis.setTextColor(WHITE);
         xAxis.setTextSize(10f);
         xAxis.setDrawGridLines(true);
-
       //  String sysTime[] = new String[]{"22", "14", "21", "56"};
         xAxis.setSpaceMax(60f);
         xAxis.setSpaceMin(2f);
@@ -126,7 +144,6 @@ public class Fragment1 extends Fragment {
         lineChart.invalidate();
 
         feedMultiple();
-
 
 /*
         LineData chartData = new LineData(); // 차트에 담길 데이터
@@ -169,7 +186,15 @@ public class Fragment1 extends Fragment {
         String ndate = dayNow.format(date);
         tvDate.setText(ndate);
 */
+
+        tvMerge = (TextView) v.findViewById(R.id.tvMerge);
+        tvMergeKWh =(TextView) v.findViewById(R.id.tvMergeKWh);
+
+        tThread threads = new tThread();
+        threads.start();
+
         return v;
+
     }
 
 //    private void addEntry(double num) {
@@ -199,7 +224,7 @@ public class Fragment1 extends Fragment {
 //        lineChart.moveViewTo(data.getEntryCount(), 50f, YAxis.AxisDependency.LEFT);
 //
 //    }
-/*
+
     private void addEntry(){
         LineData data = lineChart.getData();
         if(data != null){
@@ -263,7 +288,112 @@ public class Fragment1 extends Fragment {
         super.onPause();
         if (thread != null) thread.interrupt();
     }
-*/
+
+    class tThread extends Thread{
+        @Override
+        public void run() {
+            while(true) {
+                queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+
+                int method = Request.Method.GET;
+                String url = "http://119.200.31.177:9090/solarpred/api/test";
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                request = new StringRequest(
+                        method,
+                        url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                List<test> testList = new ArrayList<>();
+
+                                try {
+                                    JSONObject object = new JSONObject(response);
+
+                                    JSONArray mem = object.getJSONArray("test");
+
+                                    for (int i = 0; i < mem.length(); i++) {
+                                        JSONObject tObj = mem.getJSONObject(i);
+                                        test t = new test();
+
+                                        t.setNum1(Integer.parseInt(tObj.getString("num1")));
+
+                                        testList.add(t);
+                                    }
+
+                                    //Handler에 값을 전달 -> Message 객체
+                                    Message msg = handler.obtainMessage();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("num1",testList.get(0).getNum1());
+                                    msg.setData(bundle);
+
+                                    handler.sendMessage(msg);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getActivity().getApplicationContext(),
+                                        "요청 실패>> " + error.toString(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                );
+                queue.add(request);
+            }
+        }
+    }// tThread end
+
+    class tHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+
+            Bundle bundle = msg.getData();
+            int num1 = bundle.getInt("num1");
+            tvMergeKWh.setText(String.valueOf(num1)+"KWh");
+
+            Long sysTime = System.currentTimeMillis();
+            System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+sysTime);
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.KOREA);
+            String sysDate = formatter.format(sysTime);
+            Calendar cal = Calendar.getInstance();
+            try {
+                Date date = formatter.parse(sysDate);
+                cal.setTime(date);
+                int hour = cal.get(Calendar.HOUR_OF_DAY)*3600;
+                int minute = cal.get(Calendar.MINUTE)*60;
+                int second = cal.get(Calendar.SECOND);
+                nowSec = hour+minute+second;
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            int nowTime = nowSec-18000;
+            double percent = (double) (nowTime*100)/43200;
+
+            System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~"+percent);
+
+            String percentS = String.format("%.1f",percent);
+
+            if(percentS.equals("43200")){
+                tvPercent.setText("발전이 완료되었습니다 ("+percentS+"%)");
+            }else{
+                tvPercent.setText("발전중입니다 ("+percentS+"%)");
+            }
+            progressAOD.setProgress(nowTime);
+        }
+    }// tHandler
 }
 
 
