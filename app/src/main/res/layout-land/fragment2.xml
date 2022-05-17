@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/scdream4"
         android:text="TextView"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -71,6 +72,7 @@
                         android:id="@+id/tvRealPre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/scdream4"
                         android:text="@string/realTimePre"
                         tools:layout_editor_absoluteX="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -91,6 +93,7 @@
                         android:id="@+id/tvMergePre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/scdream4"
                         android:text="@string/mergePre"
                         tools:layout_editor_absoluteX="5dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

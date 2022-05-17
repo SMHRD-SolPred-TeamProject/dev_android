@@ -6,18 +6,21 @@
             android:icon="@drawable/ic_moo_b"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:title="다크모드"
+            android:fontFamily="@font/scdream4"
             />
         <item
             android:id="@+id/asTool"
             android:icon="@drawable/astool"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:title="A/S 문의"
+            android:fontFamily="@font/scdream4"
             />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:title="로그아웃"
+            android:fontFamily="@font/scdream4"
             />
     </group>
 </menu>

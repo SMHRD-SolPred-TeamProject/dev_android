@@ -36,6 +36,8 @@ public class Fragment3 extends Fragment {
     ImageView imgSolution;
     tHandler handler = new tHandler();
     int num = 0;
+    int realTotal = 0;
+    int realTotalAOD = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -60,14 +62,14 @@ public class Fragment3 extends Fragment {
 
         return v;
     }
-    class tThread extends Thread{
+    class tThread extends Thread {
         @Override
         public void run() {
-            while(true) {
+            while (true) {
                 queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
                 int method = Request.Method.GET;
-                String url = "http://119.200.31.177:9090/solarpred/api/test";
+                String url = "http://119.200.31.177:9090/solarpred/api/dash";
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -79,26 +81,25 @@ public class Fragment3 extends Fragment {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                List<test> testList = new ArrayList<>();
+                                List<DashBoard> DashBoardList = new ArrayList<>();
 
                                 try {
                                     JSONObject object = new JSONObject(response);
 
-                                    JSONArray mem = object.getJSONArray("test");
+                                    JSONArray dash = object.getJSONArray("dash");
+                                    JSONObject rObj = dash.getJSONObject(1);
+                                    DashBoard d = new DashBoard();
+                                    JSONObject tObj = dash.getJSONObject(0);
+                                    d.setR_aod(Integer.parseInt(tObj.getString("aod")));
+                                    DashBoardList.add(d);
 
-                                    for (int i = 0; i < mem.length(); i++) {
-                                        JSONObject tObj = mem.getJSONObject(i);
-                                        test t = new test();
-
-                                        t.setNum1(Integer.parseInt(tObj.getString("num1")));
-
-                                        testList.add(t);
-                                    }
+                                    realTotal = Integer.parseInt(rObj.getString("realTotal"));
 
                                     //Handler에 값을 전달 -> Message 객체
                                     Message msg = handler.obtainMessage();
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("num1",testList.get(0).getNum1());
+                                    bundle.putInt("aod", DashBoardList.get(0).getR_aod());
+                                    bundle.putInt("realTotal",realTotal);
                                     msg.setData(bundle);
 
                                     handler.sendMessage(msg);
@@ -130,33 +131,43 @@ public class Fragment3 extends Fragment {
             super.handleMessage(msg);
 
             Bundle bundle = msg.getData();
-            int num1 = bundle.getInt("num1");
-            if(num1 <= 3){
+            realTotalAOD = bundle.getInt("realTotal");
+            if(realTotalAOD <= 3){
                 tvSolution.setText("태양광패널이 열심히 전력을 생산하고 있습니다");
-                    imgSolution.setImageResource(R.drawable.ic_battery1);
-
-                    imgSolution.setImageResource(R.drawable.ic_battery2);
-
-                    imgSolution.setImageResource(R.drawable.ic_battery3);
-
+                    //imgSolution.setImageResource(R.drawable.ic_battery1);
+                    //imgSolution.setImageResource(R.drawable.ic_battery2);
+                    //imgSolution.setImageResource(R.drawable.ic_battery3);
                     imgSolution.setImageResource(R.drawable.ic_battery4);
-            }else if(num1 <= 6){
+            }else if(realTotalAOD <= 6){
                 imgSolution.setImageResource(R.drawable.ic_rice);
                 tvSolution.setText("따끈따끈 전기밥솥을 5시간 사용할 수 있는 전력량이 생산됐어요");
-            }else if (num1 <= 9){
+            }else if (realTotalAOD <= 9){
                 imgSolution.setImageResource(R.drawable.ic_ac);
                 tvSolution.setText("우리집을 남극으로!\uD83D\uDC27 에어컨을 5시간 사용할 수 있는 전력량이 생산됐어요ㅤ");
-            }else if (num1 <= 12 ){
+            }else if (realTotalAOD <= 12 ){
                 imgSolution.setImageResource(R.drawable.ic_dish);
                 tvSolution.setText("뽀득뽀득 식기세척기를 5시간 사용할 수 있는 전력량이 생산됐어요");
-            }else if (num1 <= 15){
+            }else if (realTotalAOD <= 15){
                 imgSolution.setImageResource(R.drawable.ic_induction);
                 tvSolution.setText("편리한 인덕션을 5시간 사용할 수 있는 전력량이 생산됐어요");
-            }else {
+            }else if(realTotalAOD <= 77) {
+                imgSolution.setImageResource(R.drawable.ic_oneperson);
+                tvSolution.setText("1인 가구의 한달 전력량이 생산됐어요");
+            }else if(realTotalAOD <= 100){
                 imgSolution.setImageResource(R.drawable.ic_car);
                 tvSolution.setText("전기차를 완충할 전력량이 생산됐어요");
+            }else if(realTotalAOD <= 150){
+                imgSolution.setImageResource(R.drawable.ic_twoperson);
+                tvSolution.setText("2인 가구의 한 달 전력량이 생산됐어요");
+            }else if(realTotalAOD <= 300){
+                imgSolution.setImageResource(R.drawable.ic_family);
+                tvSolution.setText("4인 가구의 한 달 전력량이 생산됐어요");
+            }else{
+                imgSolution.setImageResource(R.drawable.ic_family);
+                tvSolution.setText("4인 가구의 세달 전력량이 생산됐어요");
             }
-            tvReal.setText(String.valueOf(num1)+"KWh");
+
+            tvReal.setText(String.valueOf(realTotalAOD)+"KWh");
         }
 
     }// tHandler

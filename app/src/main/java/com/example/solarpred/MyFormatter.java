@@ -12,7 +12,7 @@ public class MyFormatter extends IndexAxisValueFormatter {
 
     @Override
     public String getFormattedValue(float value) {
-        System.out.println("value : " + value);
+       // System.out.println("value : " + value);
         int index = Math.round(value);
         String result = Integer.toString(index);
         int values = (int) (index);
@@ -31,7 +31,7 @@ public class MyFormatter extends IndexAxisValueFormatter {
         }
 
         String time = formatter.format(cal.getTime());
-        System.out.print("cal : " + time + "values : "+values);
+       // System.out.print("cal : " + time + "values : "+values);
 
         return dTime;
     }

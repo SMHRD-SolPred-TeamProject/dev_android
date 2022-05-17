@@ -64,10 +64,13 @@ public class Fragment1 extends Fragment {
     private Thread thread;
     RequestQueue queue;
     StringRequest request;
-    TextView tvMerge, tvMergeKWh,tvPercent;
+    TextView tvMerge, tvMergeKWh, tvPercent;
     tHandler handler = new tHandler();
     ProgressBar progressAOD;
     int nowSec = 0;
+    int aod = 0;
+    int realTotal = 0;
+    int realTotalAOD = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,9 +80,6 @@ public class Fragment1 extends Fragment {
         tvPercent = v.findViewById(R.id.tvPercent);
         progressAOD = v.findViewById(R.id.progressAOD);
         progressAOD.setIndeterminate(false);
-
-
-
 
 
         tvDate.setText("Today");
@@ -117,14 +117,16 @@ public class Fragment1 extends Fragment {
         xAxis.setTextColor(WHITE);
         xAxis.setTextSize(10f);
         xAxis.setDrawGridLines(true);
-      //  String sysTime[] = new String[]{"22", "14", "21", "56"};
+        //  String sysTime[] = new String[]{"22", "14", "21", "56"};
         xAxis.setSpaceMax(60f);
         xAxis.setSpaceMin(2f);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
-       // GraphAxisValueFormatter formatter = new GraphAxisValueFormatter(sysTime);
-       // xAxis.setValueFormatter(formatter);
+        // GraphAxisValueFormatter formatter = new GraphAxisValueFormatter(sysTime);
+        // xAxis.setValueFormatter(formatter);
         xAxis.setValueFormatter(new MyFormatter());
+        xAxis.setSpaceMin(1f);
+        xAxis.setSpaceMax(1f);
 
 //Y축
         YAxis leftAxis = lineChart.getAxisLeft();
@@ -136,11 +138,12 @@ public class Fragment1 extends Fragment {
         YAxis rightAxis = lineChart.getAxisRight();
         rightAxis.setEnabled(false);
 
-        lineChart.setVisibleXRange(5,5);
+        lineChart.setVisibleXRange(5, 5);
 
         LineData data = new LineData();
         lineChart.setData(data);
-    //    addEntry(sampleDate[0]);
+        Float aods = Float.parseFloat(String.valueOf(aod));
+        addEntry(aod);
         lineChart.invalidate();
 
         feedMultiple();
@@ -188,7 +191,7 @@ public class Fragment1 extends Fragment {
 */
 
         tvMerge = (TextView) v.findViewById(R.id.tvMerge);
-        tvMergeKWh =(TextView) v.findViewById(R.id.tvMergeKWh);
+        tvMergeKWh = (TextView) v.findViewById(R.id.tvMergeKWh);
 
         tThread threads = new tThread();
         threads.start();
@@ -197,64 +200,75 @@ public class Fragment1 extends Fragment {
 
     }
 
-//    private void addEntry(double num) {
-//
-//        LineData data = lineChart.getData();
-//
-//        if (data == null) {
-//            data = new LineData();
-//            lineChart.setData(data);
-//        }
-//
-//        ILineDataSet set = data.getDataSetByIndex(0);
-//
-//        if (set == null) {
-//            set = createSet();
-//            data.addDataSet(set);
-//        }
-//
-//        data.addEntry(new Entry((float) set.getEntryCount(), (float) num), 0);
-//        data.notifyDataChanged();
-//
-//        // let the chart know it's data has changed
-//        lineChart.notifyDataSetChanged();
-//
-//        lineChart.setVisibleXRangeMaximum(150);
-//        // this automatically refreshes the chart (calls invalidate())
-//        lineChart.moveViewTo(data.getEntryCount(), 50f, YAxis.AxisDependency.LEFT);
-//
-//    }
+    private void addEntry(double num) {
 
-    private void addEntry(){
         LineData data = lineChart.getData();
-        if(data != null){
-            ILineDataSet set = data.getDataSetByIndex(0);
 
-            if(set == null){
-                set = createSet();
-                data.addDataSet(set);
-            }
-            data.addEntry(new Entry(set.getEntryCount(),(float) (Math.random()*40)+30f),0);
-            data.notifyDataChanged();
-
-            lineChart.notifyDataSetChanged();
-            lineChart.setVisibleXRangeMaximum(6);
-
-            lineChart.moveViewToX(data.getEntryCount());
-
+        if (data == null) {
+            data = new LineData();
+            lineChart.setData(data);
         }
+
+        ILineDataSet set = data.getDataSetByIndex(0);
+
+        if (set == null) {
+            set = createSet();
+            data.addDataSet(set);
+        }
+
+        data.addEntry(new Entry((float) set.getEntryCount(), (float) num), 0);
+        data.notifyDataChanged();
+
+        // let the chart know it's data has changed
+        lineChart.notifyDataSetChanged();
+
+        //lineChart.setVisibleXRange(5,5);
+        //lineChart.moveViewToX(data.getEntryCount());
+        lineChart.setVisibleXRangeMaximum(6);
+        // this automatically refreshes the chart (calls invalidate())
+        lineChart.moveViewTo(data.getEntryCount(), 50f, YAxis.AxisDependency.LEFT);
+
     }
+
+//    private void addEntry(){
+//        LineData data = lineChart.getData();
+//        if(data != null){
+//            ILineDataSet set = data.getDataSetByIndex(0);
+//
+//            if(set == null){
+//                set = createSet();
+//                data.addDataSet(set);
+//            }
+//            data.addEntry(new Entry(set.getEntryCount(),(float) (Math.random()*40)+30f),0);
+//            data.notifyDataChanged();
+//
+//            lineChart.notifyDataSetChanged();
+//            lineChart.setVisibleXRangeMaximum(6);
+//
+//            lineChart.moveViewToX(data.getEntryCount());
+//
+//        }
+//    }
 
     private LineDataSet createSet() {
 
         LineDataSet set = new LineDataSet(null, "Real-time Line Data");
-        set.setLineWidth(1f);
+        set.setFillAlpha(110);
+        set.setFillColor(Color.parseColor("#d7e7fa"));
+        set.setColor(Color.parseColor("#0B80C9"));
+        set.setCircleColor(Color.parseColor("#FFA1B4DC"));
+        set.setCircleHoleColor(Color.BLUE);
+        set.setValueTextColor(Color.WHITE);
         set.setDrawValues(false);
-        set.setValueTextColor(getResources().getColor(android.R.color.black));
-        set.setColor(getResources().getColor(android.R.color.holo_blue_light));
-        set.setMode(LineDataSet.Mode.LINEAR);
+        set.setLineWidth(2);
+        set.setCircleRadius(6);
+        set.setDrawCircleHole(false);
         set.setDrawCircles(false);
-        set.setHighLightColor(Color.rgb(190, 190, 190));
+        set.setValueTextSize(9f);
+        set.setDrawFilled(true);
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setHighLightColor(Color.rgb(244, 117, 117));
+
 
         return set;
     }
@@ -264,7 +278,7 @@ public class Fragment1 extends Fragment {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                addEntry();
+                addEntry(aod);
             }
         };
         thread = new Thread(new Runnable() {
@@ -289,14 +303,14 @@ public class Fragment1 extends Fragment {
         if (thread != null) thread.interrupt();
     }
 
-    class tThread extends Thread{
+    class tThread extends Thread {
         @Override
         public void run() {
-            while(true) {
+            while (true) {
                 queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
                 int method = Request.Method.GET;
-                String url = "http://119.200.31.177:9090/solarpred/api/test";
+                String url = "http://119.200.31.177:9090/solarpred/api/dash";
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -308,26 +322,25 @@ public class Fragment1 extends Fragment {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                List<test> testList = new ArrayList<>();
+                                List<DashBoard> DashBoardList = new ArrayList<>();
 
                                 try {
                                     JSONObject object = new JSONObject(response);
 
-                                    JSONArray mem = object.getJSONArray("test");
+                                    JSONArray dash = object.getJSONArray("dash");
+                                    JSONObject rObj = dash.getJSONObject(1);
+                                    DashBoard d = new DashBoard();
+                                    JSONObject tObj = dash.getJSONObject(0);
+                                    d.setR_aod(Integer.parseInt(tObj.getString("aod")));
+                                    DashBoardList.add(d);
 
-                                    for (int i = 0; i < mem.length(); i++) {
-                                        JSONObject tObj = mem.getJSONObject(i);
-                                        test t = new test();
-
-                                        t.setNum1(Integer.parseInt(tObj.getString("num1")));
-
-                                        testList.add(t);
-                                    }
+                                    realTotal = Integer.parseInt(rObj.getString("realTotal"));
 
                                     //Handler에 값을 전달 -> Message 객체
                                     Message msg = handler.obtainMessage();
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("num1",testList.get(0).getNum1());
+                                    bundle.putInt("aod", DashBoardList.get(0).getR_aod());
+                                    bundle.putInt("realTotal",realTotal);
                                     msg.setData(bundle);
 
                                     handler.sendMessage(msg);
@@ -359,37 +372,39 @@ public class Fragment1 extends Fragment {
             super.handleMessage(msg);
 
             Bundle bundle = msg.getData();
-            int num1 = bundle.getInt("num1");
-            tvMergeKWh.setText(String.valueOf(num1)+"KWh");
+            aod = bundle.getInt("aod");
+            realTotalAOD = bundle.getInt("realTotal");
+            tvMergeKWh.setText(String.valueOf(realTotalAOD) + "KWh");
 
             Long sysTime = System.currentTimeMillis();
-            System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+sysTime);
+            //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+sysTime);
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.KOREA);
             String sysDate = formatter.format(sysTime);
             Calendar cal = Calendar.getInstance();
             try {
                 Date date = formatter.parse(sysDate);
                 cal.setTime(date);
-                int hour = cal.get(Calendar.HOUR_OF_DAY)*3600;
-                int minute = cal.get(Calendar.MINUTE)*60;
+                int hour = cal.get(Calendar.HOUR_OF_DAY) * 3600;
+                int minute = cal.get(Calendar.MINUTE) * 60;
                 int second = cal.get(Calendar.SECOND);
-                nowSec = hour+minute+second;
+                nowSec = hour + minute + second;
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            int nowTime = nowSec-18000;
-            double percent = (double) (nowTime*100)/43200;
+            int nowTime = nowSec - 18000;
+            double percent = (double) (nowTime * 100) / 43200;
 
-            System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~"+percent);
+            //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~"+percent);
 
-            String percentS = String.format("%.1f",percent);
+            String percentS = String.format("%.1f", percent);
+            Double percentResult = Double.parseDouble(percentS);
 
-            if(percentS.equals("43200")){
-                tvPercent.setText("발전이 완료되었습니다 ("+percentS+"%)");
-            }else{
-                tvPercent.setText("발전중입니다 ("+percentS+"%)");
+            if(percentResult > 100){
+                tvPercent.setText("발전이 완료되었습니다");
+            } else {
+                tvPercent.setText("발전중입니다 (" + percentS + "%)");
             }
             progressAOD.setProgress(nowTime);
         }
