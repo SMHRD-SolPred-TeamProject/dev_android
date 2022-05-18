@@ -361,7 +361,7 @@ public class Fragment2 extends Fragment {
             Predaod = bundle.getDouble("predAOD");
             PreTotalAOD = bundle.getDouble("total");
             String preResult= String.format("%.1f",PreTotalAOD);
-            tvMergeKWh.setText(preResult+"KWh");
+            tvMergeKWh.setText(preResult+"kW");
 
             Long sysTime = System.currentTimeMillis();
             //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+sysTime);
@@ -380,7 +380,7 @@ public class Fragment2 extends Fragment {
                 e.printStackTrace();
             }
 
-            int nowTime = nowSec-21600;
+            int nowTime = nowSec-14400;
             double percent = (double) (nowTime*100)/43200;
 
             //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~"+percent);

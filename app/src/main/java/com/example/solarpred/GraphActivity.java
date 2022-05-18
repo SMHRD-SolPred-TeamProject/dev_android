@@ -170,8 +170,13 @@ public class GraphActivity extends AppCompatActivity {
                 if(id == R.id.darkMode){
                     Toast.makeText(context, title + "다크모드", Toast.LENGTH_SHORT).show();
                 }
-                else if(id == R.id.asTool){
+                else if(id == R.id.internet){
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/"));
+                    startActivity(intent);
+                    Toast.makeText(context, title + ": 홈페이지로 이동", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.asTool){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/boardList"));
                     startActivity(intent);
                     Toast.makeText(context, title + ": 게시판으로 이동", Toast.LENGTH_SHORT).show();
                 }

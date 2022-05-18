@@ -167,7 +167,7 @@ public class Fragment3 extends Fragment {
                 tvSolution.setText("4인 가구의 세달 전력량이 생산됐어요");
             }
 
-            tvReal.setText(String.valueOf(realTotalAOD)+"KWh");
+            tvReal.setText(String.valueOf(realTotalAOD)+"kW");
         }
 
     }// tHandler

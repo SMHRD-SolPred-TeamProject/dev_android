@@ -374,7 +374,7 @@ public class Fragment1 extends Fragment {
             Bundle bundle = msg.getData();
             aod = bundle.getInt("aod");
             realTotalAOD = bundle.getInt("realTotal");
-            tvMergeKWh.setText(String.valueOf(realTotalAOD) + "KWh");
+            tvMergeKWh.setText(String.valueOf(realTotalAOD) + "kW");
 
             Long sysTime = System.currentTimeMillis();
             //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+sysTime);
