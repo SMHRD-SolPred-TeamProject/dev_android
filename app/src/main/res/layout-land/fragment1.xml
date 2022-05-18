@@ -12,12 +12,14 @@
         android:id="@+id/tvAOD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/scdream4"
         android:text="TextView"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:fontFamily="@font/scdream4"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,24 +28,22 @@
         android:id="@+id/cdPre"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="10dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvAOD"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toEndOf="@+id/tvAOD"
         app:layout_constraintTop_toTopOf="@+id/tvAOD"
         app:layout_constraintVertical_bias="1.0" />
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="796dp"
-        android:layout_height="266dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAOD">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +53,8 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cdGraph3"
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
@@ -64,7 +65,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/tvRealAOD"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -76,21 +77,11 @@
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/Chart"
-                        android:layout_width="782dp"
-                        android:layout_height="234dp"
-                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvRealAOD" />
 
-                    <!--
-                    <WebView
-                        android:id="@+id/webvw"
-                        android:layout_width="716dp"
-                        android:layout_height="239dp"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
--->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -102,27 +93,37 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="@font/scdream4"
                 android:gravity="center"
                 android:text="@string/mergeAOD"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <com.mackhartley.roundedprogressbar.RoundedProgressBar
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="20dp"
-                app:rpbBackgroundColor="#a9cfe9"
-                app:rpbBackgroundTextColor="#3A3A3A"
-                app:rpbCornerRadius="20dp"
-                app:rpbProgressColor="#428bca"
-                app:rpbProgressTextColor="#3A3A3A"
-                app:rpbTextPadding="12dp"
-                app:rpbTextSize="25sp">
+                android:layout_height="match_parent">
 
-            </com.mackhartley.roundedprogressbar.RoundedProgressBar>
+                <ProgressBar
+                    android:id="@+id/progressAOD"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:max="43200"
+                    android:progressDrawable="@drawable/cutom_bar" />
+
+                <TextView
+                    android:id="@+id/tvPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/scdream4"
+                    android:text="@string/loading"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -138,15 +139,16 @@
                         android:id="@+id/tvMergeKWh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/scdream4"
                         android:text="@string/tvMerge"
-                        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-                        app:layout_constraintEnd_toEndOf="@+id/progressBar"
-                        app:layout_constraintStart_toStartOf="@+id/progressBar"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/progressBar4"
+                        app:layout_constraintStart_toStartOf="@+id/progressBar4"
+                        app:layout_constraintTop_toTopOf="@+id/progressBar4" />
 
                     <ProgressBar
 
-                        android:id="@+id/progressBar"
+                        android:id="@+id/progressBar4"
 
                         style="?android:attr/progressBarStyleLarge"
 
@@ -164,16 +166,15 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </FrameLayout>
 
 
-            출처: https://perpetual.tistory.com/19 [단단단]
-
         </LinearLayout>
+
+
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

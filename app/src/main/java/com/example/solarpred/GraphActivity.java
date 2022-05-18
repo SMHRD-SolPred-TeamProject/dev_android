@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -170,8 +171,13 @@ public class GraphActivity extends AppCompatActivity {
                 if(id == R.id.darkMode){
                     Toast.makeText(context, title + "다크모드", Toast.LENGTH_SHORT).show();
                 }
-                else if(id == R.id.asTool){
+                else if(id == R.id.internet){
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/"));
+                    startActivity(intent);
+                    Toast.makeText(context, title + ": 홈페이지로 이동", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.asTool){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/boardList"));
                     startActivity(intent);
                     Toast.makeText(context, title + ": 게시판으로 이동", Toast.LENGTH_SHORT).show();
                 }
@@ -199,6 +205,7 @@ public class GraphActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     } //페이저와 프래그먼트 이어주기

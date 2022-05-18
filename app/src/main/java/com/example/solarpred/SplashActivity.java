@@ -3,6 +3,7 @@ package com.example.solarpred;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
@@ -59,4 +60,6 @@ public class SplashActivity extends AppCompatActivity {
             this.title = title;
         }
     }
+
+
 }

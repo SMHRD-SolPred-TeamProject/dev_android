@@ -11,12 +11,12 @@
     <string name="autoLogin">자동로그인</string>
 
     <!--Fragment-->
-    <string name="realTimeAOD">실시간발전량</string>
+    <string name="realTimeAOD">실시간발전량(W)</string>
     <string name="realTimePre">실시간예측발전량</string>
     <string name="mergeAOD">누적발전량</string>
-    <string name="mergePre">누적예측발전량</string>
+    <string name="mergePre">실시간발전량</string>
     <string name="tvMerge">KWh</string>
     <string name="Solution">Solution</string>
-
+    <string name="loading">loading...</string>
 
 </resources>

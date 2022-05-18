@@ -2,6 +2,7 @@ package com.example.solarpred;
 
 import static android.graphics.Color.WHITE;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +47,7 @@ import java.util.Locale;
 
 public class Fragment2 extends Fragment {
     TextView tvDate;
-    public Fragment2() { // Required empty public constructor
+    public Fragment2() {
     }
 
     private LineChart lineChart;
@@ -63,7 +64,6 @@ public class Fragment2 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment2, container, false);
         TextView tvDate = (TextView) v.findViewById(R.id.tvAOD);
         tvPercent = v.findViewById(R.id.tvPercent);
@@ -73,7 +73,7 @@ public class Fragment2 extends Fragment {
 
         tvDate.setText("+1 Hour");
 
-        ArrayList<Entry> entry_chart1 = new ArrayList<>(); // 데이터를 담을 Arraylist
+        ArrayList<Entry> entry_chart1 = new ArrayList<>();
         ArrayList<Entry> entry_chart2 = new ArrayList<>();
 
         lineChart = v.findViewById(R.id.Chart);
@@ -84,20 +84,16 @@ public class Fragment2 extends Fragment {
         des.setTextSize(10f);
         des.setTextColor(Color.WHITE);
 
-        // touch gestures (false-비활성화)
         lineChart.setTouchEnabled(false);
-// scaling and dragging (false-비활성화)
         lineChart.setDragEnabled(false);
         lineChart.setScaleEnabled(false);
-//auto scale
         lineChart.setAutoScaleMinMaxEnabled(true);
-// if disabled, scaling can be done on x- and y-axis separately
         lineChart.setPinchZoom(false);
 
         //Legend
         Legend l = lineChart.getLegend();
         l.setEnabled(false);
-        l.setFormSize(10f); // set the size of the legend forms/shapes
+        l.setFormSize(10f);
         l.setTextSize(12f);
         l.setTextColor(Color.WHITE);
 //X축
@@ -110,8 +106,6 @@ public class Fragment2 extends Fragment {
         xAxis.setSpaceMin(2f);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
-        // GraphAxisValueFormatter formatter = new GraphAxisValueFormatter(sysTime);
-        // xAxis.setValueFormatter(formatter);
         xAxis.setValueFormatter(new MyFormatter());
         xAxis.setSpaceMin(1f);
         xAxis.setSpaceMax(1f);
@@ -130,53 +124,10 @@ public class Fragment2 extends Fragment {
 
         LineData data = new LineData();
         lineChart.setData(data);
-        //Float aods = Float.parseFloat(String.valueOf(aod));
         addEntry(Predaod);
         lineChart.invalidate();
 
         feedMultiple();
-
-/*
-        LineData chartData = new LineData(); // 차트에 담길 데이터
-
-        entry_chart1.add(new Entry(1, 1)); //entry_chart1에 좌표 데이터를 담는다.
-        entry_chart1.add(new Entry(2, 2));
-        entry_chart1.add(new Entry(3, 3));
-        entry_chart1.add(new Entry(4, 4));
-        entry_chart1.add(new Entry(5, 2));
-        entry_chart1.add(new Entry(6, 8));
-
-        entry_chart2.add(new Entry(1, 2)); //entry_chart2에 좌표 데이터를 담는다.
-        entry_chart2.add(new Entry(2, 3));
-        entry_chart2.add(new Entry(3, 1));
-        entry_chart2.add(new Entry(4, 4));
-        entry_chart2.add(new Entry(5, 5));
-        entry_chart2.add(new Entry(6, 7));
-
-
-        LineDataSet lineDataSet1 = new LineDataSet(entry_chart1, "LineGraph1"); // 데이터가 담긴 Arraylist 를 LineDataSet 으로 변환한다.
-        LineDataSet lineDataSet2 = new LineDataSet(entry_chart2, "LineGraph2");
-
-
-        lineDataSet1.setColor(Color.RED); // 해당 LineDataSet의 색 설정 :: 각 Line 과 관련된 세팅은 여기서 설정한다.
-        lineDataSet2.setColor(Color.BLACK);
-
-
-        chartData.addDataSet(lineDataSet1); // 해당 LineDataSet 을 적용될 차트에 들어갈 DataSet 에 넣는다.
-        chartData.addDataSet(lineDataSet2);
-
-        lineChart.setData(chartData); // 차트에 위의 DataSet을 넣는다.
-
-        lineChart.invalidate(); // 차트 업데이트
-        lineChart.setTouchEnabled(false); // 차트 터치 disable
-
-
-        /*long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        SimpleDateFormat dayNow = new SimpleDateFormat("yy.MM.dd");
-        String ndate = dayNow.format(date);
-        tvDate.setText(ndate);
-*/
 
         tvMerge = (TextView) v.findViewById(R.id.tvMerge);
         tvMergeKWh =(TextView) v.findViewById(R.id.tvMergeKWh);
@@ -207,34 +158,11 @@ public class Fragment2 extends Fragment {
         data.addEntry(new Entry((float) set.getEntryCount(), (float) num), 0);
         data.notifyDataChanged();
 
-        // let the chart know it's data has changed
         lineChart.notifyDataSetChanged();
-
         lineChart.setVisibleXRangeMaximum(6);
-        // this automatically refreshes the chart (calls invalidate())
         lineChart.moveViewTo(data.getEntryCount(), 50f, YAxis.AxisDependency.LEFT);
 
     }
-
-//    private void addEntry(){
-//        LineData data = lineChart.getData();
-//        if(data != null){
-//            ILineDataSet set = data.getDataSetByIndex(0);
-//
-//            if(set == null){
-//                set = createSet();
-//                data.addDataSet(set);
-//            }
-//            data.addEntry(new Entry(set.getEntryCount(),(float) (Math.random()*40)+30f),0);
-//            data.notifyDataChanged();
-//
-//            lineChart.notifyDataSetChanged();
-//            lineChart.setVisibleXRangeMaximum(6);
-//
-//            lineChart.moveViewToX(data.getEntryCount());
-//
-//        }
-//    }
 
     private LineDataSet createSet() {
 
@@ -270,11 +198,13 @@ public class Fragment2 extends Fragment {
             @Override
             public void run() {
                 while (true) {
-                    getActivity().runOnUiThread(runnable);
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(runnable);
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
                     }
                 }
             }
@@ -292,61 +222,64 @@ public class Fragment2 extends Fragment {
         @Override
         public void run() {
             while(true) {
-                queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
-                int method = Request.Method.GET;
-                String url = "http://119.200.31.177:9090/solarpred/api/pre";
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                request = new StringRequest(
-                        method,
-                        url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                List<Prediction> predList = new ArrayList<>();
+                if (getActivity() != null) {
+                    queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
-                                try {
-                                    JSONObject object = new JSONObject(response);
+                    int method = Request.Method.GET;
+                    String url = "http://119.200.31.177:9090/solarpred/api/pre";
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    request = new StringRequest(
+                            method,
+                            url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    List<Prediction> predList = new ArrayList<>();
 
-                                    JSONArray pre = object.getJSONArray("pre");
-                                    JSONObject pObj = pre.getJSONObject(1);
-                                    Prediction p = new Prediction();
-                                    JSONObject tObj = pre.getJSONObject(0);
-                                    p.setPred_aod(Double.parseDouble(tObj.getString("predAOD")));
-                                    predList.add(p);
+                                    try {
+                                        JSONObject object = new JSONObject(response);
 
-                                    PreTotal = Double.parseDouble(pObj.getString("total"));
+                                        JSONArray pre = object.getJSONArray("pre");
+                                        JSONObject pObj = pre.getJSONObject(1);
+                                        Prediction p = new Prediction();
+                                        JSONObject tObj = pre.getJSONObject(0);
+                                        p.setPred_aod(Double.parseDouble(tObj.getString("predAOD")));
+                                        predList.add(p);
+
+                                        PreTotal = Double.parseDouble(pObj.getString("total"));
 
 
-                                    //Handler에 값을 전달 -> Message 객체
-                                    Message msg = handler.obtainMessage();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putDouble("predAOD",predList.get(0).getPred_aod());
-                                    bundle.putDouble("total",PreTotal);
-                                    msg.setData(bundle);
+                                        //Handler에 값을 전달 -> Message 객체
+                                        Message msg = handler.obtainMessage();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putDouble("predAOD", predList.get(0).getPred_aod());
+                                        bundle.putDouble("total", PreTotal);
+                                        msg.setData(bundle);
 
-                                    handler.sendMessage(msg);
+                                        handler.sendMessage(msg);
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
-
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getActivity().getApplicationContext(),
+                                            "요청 실패>> " + error.toString(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getActivity().getApplicationContext(),
-                                        "요청 실패>> " + error.toString(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-                queue.add(request);
+                    );
+                    queue.add(request);
+                }
             }
         }
     }// tThread end
@@ -361,10 +294,9 @@ public class Fragment2 extends Fragment {
             Predaod = bundle.getDouble("predAOD");
             PreTotalAOD = bundle.getDouble("total");
             String preResult= String.format("%.1f",PreTotalAOD);
-            tvMergeKWh.setText(preResult+"KWh");
+            tvMergeKWh.setText(preResult+"kW");
 
             Long sysTime = System.currentTimeMillis();
-            //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+sysTime);
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.KOREA);
             String sysDate = formatter.format(sysTime);
             Calendar cal = Calendar.getInstance();
@@ -380,10 +312,8 @@ public class Fragment2 extends Fragment {
                 e.printStackTrace();
             }
 
-            int nowTime = nowSec-21600;
+            int nowTime = nowSec-14400;
             double percent = (double) (nowTime*100)/43200;
-
-            //System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~"+percent);
 
             String percentS = String.format("%.1f",percent);
             Double percentResult = Double.parseDouble(percentS);
@@ -396,6 +326,7 @@ public class Fragment2 extends Fragment {
             progressAOD.setProgress(nowTime);
         }
     }// tHandler
+
 }
 
 

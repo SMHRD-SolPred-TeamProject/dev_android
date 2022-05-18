@@ -121,7 +121,7 @@
                     android:layout_gravity="center|top"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/scdream4"
-                    android:text="TextView"
+                    android:text="@string/loading"
                     android:textStyle="bold" />
             </FrameLayout>
 

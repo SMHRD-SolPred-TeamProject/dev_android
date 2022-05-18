@@ -1,5 +1,6 @@
 package com.example.solarpred;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment3 extends Fragment {
-    public Fragment3() { // Required empty public constructor
+    public Fragment3() {
     }
     RequestQueue queue;
     StringRequest request;
@@ -40,25 +41,14 @@ public class Fragment3 extends Fragment {
     int realTotalAOD = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment3, container, false);
 
         tvReal = v.findViewById(R.id.tvReal);
         tvSolution = v.findViewById(R.id.tvSolution);
         imgSolution = v.findViewById(R.id.imgSolution);
 
-
         tThread threads = new tThread();
-        //String real = tvReal.getText().toString();
-        //num = Integer.parseInt(real);
-        //System.out.println("test~~~~~~~~~"+real);
-
         threads.start();
-
-
-
-
-
 
         return v;
     }
@@ -66,60 +56,61 @@ public class Fragment3 extends Fragment {
         @Override
         public void run() {
             while (true) {
-                queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                if (getActivity() != null) {
+                    queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                    int method = Request.Method.GET;
+                    String url = "http://119.200.31.177:9090/solarpred/api/dash";
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    request = new StringRequest(
+                            method,
+                            url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    List<DashBoard> DashBoardList = new ArrayList<>();
 
-                int method = Request.Method.GET;
-                String url = "http://119.200.31.177:9090/solarpred/api/dash";
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                request = new StringRequest(
-                        method,
-                        url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                List<DashBoard> DashBoardList = new ArrayList<>();
+                                    try {
+                                        JSONObject object = new JSONObject(response);
 
-                                try {
-                                    JSONObject object = new JSONObject(response);
+                                        JSONArray dash = object.getJSONArray("dash");
+                                        JSONObject rObj = dash.getJSONObject(1);
+                                        DashBoard d = new DashBoard();
+                                        JSONObject tObj = dash.getJSONObject(0);
+                                        d.setR_aod(Integer.parseInt(tObj.getString("aod")));
+                                        DashBoardList.add(d);
 
-                                    JSONArray dash = object.getJSONArray("dash");
-                                    JSONObject rObj = dash.getJSONObject(1);
-                                    DashBoard d = new DashBoard();
-                                    JSONObject tObj = dash.getJSONObject(0);
-                                    d.setR_aod(Integer.parseInt(tObj.getString("aod")));
-                                    DashBoardList.add(d);
+                                        realTotal = Integer.parseInt(rObj.getString("realTotal"));
 
-                                    realTotal = Integer.parseInt(rObj.getString("realTotal"));
+                                        //Handler에 값을 전달 -> Message 객체
+                                        Message msg = handler.obtainMessage();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt("aod", DashBoardList.get(0).getR_aod());
+                                        bundle.putInt("realTotal", realTotal);
+                                        msg.setData(bundle);
 
-                                    //Handler에 값을 전달 -> Message 객체
-                                    Message msg = handler.obtainMessage();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putInt("aod", DashBoardList.get(0).getR_aod());
-                                    bundle.putInt("realTotal",realTotal);
-                                    msg.setData(bundle);
+                                        handler.sendMessage(msg);
 
-                                    handler.sendMessage(msg);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getActivity().getApplicationContext(),
+                                            "요청 실패>> " + error.toString(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getActivity().getApplicationContext(),
-                                        "요청 실패>> " + error.toString(),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                );
-                queue.add(request);
+                    );
+                    queue.add(request);
+                }
             }
         }
     }// tThread end
@@ -134,9 +125,6 @@ public class Fragment3 extends Fragment {
             realTotalAOD = bundle.getInt("realTotal");
             if(realTotalAOD <= 3){
                 tvSolution.setText("태양광패널이 열심히 전력을 생산하고 있습니다");
-                    //imgSolution.setImageResource(R.drawable.ic_battery1);
-                    //imgSolution.setImageResource(R.drawable.ic_battery2);
-                    //imgSolution.setImageResource(R.drawable.ic_battery3);
                     imgSolution.setImageResource(R.drawable.ic_battery4);
             }else if(realTotalAOD <= 6){
                 imgSolution.setImageResource(R.drawable.ic_rice);
@@ -167,11 +155,10 @@ public class Fragment3 extends Fragment {
                 tvSolution.setText("4인 가구의 세달 전력량이 생산됐어요");
             }
 
-            tvReal.setText(String.valueOf(realTotalAOD)+"KWh");
+            tvReal.setText(String.valueOf(realTotalAOD)+"kW");
         }
 
     }// tHandler
-
 
 }
 
