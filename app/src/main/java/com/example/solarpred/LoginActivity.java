@@ -136,11 +136,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                     m.setMem_id(memObj.getString("mem_id"));
                                     m.setMem_pw(memObj.getString("mem_pw"));
+                                    m.setMem_purchase(memObj.getString("mem_purchase"));
 
                                     memberList.add(m);
                                 }
 
-                                if (memberList.get(0).getMem_id().equals(loginId.getText().toString()) && memberList.get(0).getMem_pw().equals(loginPw.getText().toString())) {
+                                if (memberList.get(0).getMem_id().equals(loginId.getText().toString()) && memberList.get(0).getMem_pw().equals(loginPw.getText().toString()) && memberList.get(0).getMem_purchase().equals("Y")) {
                                     Toast.makeText(LoginActivity.this,
                                             "로그인성공 " ,
                                             Toast.LENGTH_SHORT).show();
@@ -148,9 +149,10 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
 
-                                }else if(memberList.get(0).getMem_id().equals(loginId.getText().toString()) || memberList.get(0).getMem_pw().equals(loginPw.getText().toString())){
-                                    Toast.makeText(LoginActivity.this, "아이디/패스워드를 확인해주세요", Toast.LENGTH_SHORT).show();
+//                                }else if(memberList.get(0).getMem_id().equals(loginId.getText().toString()) || memberList.get(0).getMem_pw().equals(loginPw.getText().toString())){
+//                                    Toast.makeText(LoginActivity.this, "아이디/패스워드를 확인해주세요", Toast.LENGTH_SHORT).show();
                                 } else {
+                                    System.out.println("test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                                     Toast.makeText(LoginActivity.this, "존재하지 않는 아이디입니다", Toast.LENGTH_SHORT).show();
                                 }
 
