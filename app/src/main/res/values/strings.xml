@@ -18,8 +18,8 @@
     <string name="tvMerge">KWh</string>
     <string name="Solution">Solution</string>
     <string name="loading">loading...</string>
-    <string name="realPercent2">% 입니다</string>
-    <string name="realPercent1">예측률은</string>
+    <string name="realPercent2">입니다</string>
+    <string name="realPercent1">오차범위는</string>
     <string name="tvLastDate"></string>
 
 </resources>

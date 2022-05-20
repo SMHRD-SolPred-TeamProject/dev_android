@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/scdream6"
-                android:text="97"
+                android:text="±10w"
                 android:textColor="#fbb64e"
                 android:textSize="16sp"
                 android:textStyle="bold"
