@@ -37,7 +37,7 @@
 
             android:angle="0"
 
-            android:endColor="#d8b2ff"
+            android:endColor="#94B3FD"
 
             android:startColor="@android:color/transparent"
 

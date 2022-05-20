@@ -31,6 +31,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
@@ -99,7 +100,7 @@ public class Fragment2 extends Fragment {
 //X축
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(WHITE);
+        xAxis.setTextColor(android.R.color.transparent);
         xAxis.setTextSize(10f);
         xAxis.setDrawGridLines(true);
         xAxis.setSpaceMax(60f);
@@ -109,6 +110,7 @@ public class Fragment2 extends Fragment {
         xAxis.setValueFormatter(new MyFormatter());
         xAxis.setSpaceMin(1f);
         xAxis.setSpaceMax(1f);
+      //  xAxis.setValueFormatter(new IndexAxisValueFormatter());
 
 //Y축
         YAxis leftAxis = lineChart.getAxisLeft();

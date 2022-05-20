@@ -168,10 +168,10 @@ public class GraphActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
 
-                if(id == R.id.darkMode){
-                    Toast.makeText(context, title + "다크모드", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.internet){
+//                if(id == R.id.darkMode){
+//                    Toast.makeText(context, title + "다크모드", Toast.LENGTH_SHORT).show();
+//                }
+                if(id == R.id.internet){
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/"));
                     startActivity(intent);
                     Toast.makeText(context, title + ": 홈페이지로 이동", Toast.LENGTH_SHORT).show();

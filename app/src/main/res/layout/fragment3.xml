@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_1"
+    android:background="#F7F5F2"
     android:orientation="vertical"
     tools:context=".Fragment1">
 
@@ -13,9 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
-        android:fontFamily="@font/scdream4"
+        android:fontFamily="@font/scdream6"
         android:text="@string/mergePre"
-        android:textColor="#FFFFFF"
+        android:textColor="#707070"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,13 +35,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#EAEEF4">
 
             <TextView
                 android:id="@+id/tvReal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/scdream4"
+                android:fontFamily="@font/scdream5"
                 android:text="@string/loading"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,9 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:fontFamily="@font/scdream4"
+        android:fontFamily="@font/scdream6"
         android:text="@string/Solution"
-        android:textColor="@color/white"
+        android:textColor="#707070"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cdGraph2"
@@ -77,13 +78,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#EAEEF4">
 
             <TextView
                 android:id="@+id/tvSolution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/scdream4"
+                android:fontFamily="@font/scdream5"
                 android:gravity="center"
                 android:text="@string/loading"
                 app:layout_constraintBottom_toBottomOf="parent"

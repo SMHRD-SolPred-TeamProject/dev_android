@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_1"
+    android:background="#F7F5F2"
     android:orientation="vertical"
     tools:context=".Fragment1">
 
@@ -13,33 +13,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
-        android:fontFamily="@font/scdream4"
+        android:fontFamily="@font/scdream6"
+        android:gravity="center"
         android:text="TextView"
-        android:textColor="#FFFFFF"
+        android:textColor="#707070"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cdPre"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="10dp"
-        app:cardCornerRadius="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvAOD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
-        app:layout_constraintStart_toEndOf="@+id/tvAOD"
-        app:layout_constraintTop_toTopOf="@+id/tvAOD" />
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="415dp"
         android:layout_height="551dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +50,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#EAEEF4">
 
                     <TextView
                         android:id="@+id/tvRealAOD"
@@ -69,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/scdream4"
+                        android:fontFamily="@font/scdream5"
                         android:text="@string/realTimeAOD"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -92,10 +82,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="@font/scdream6"
                 android:gravity="center"
-                android:fontFamily="@font/scdream4"
                 android:text="@string/mergeAOD"
-                android:textColor="#FFFFFF"
+                android:textColor="#707070"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -110,9 +100,8 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:progressDrawable="@drawable/cutom_bar"
                     android:max="43200"
-                    />
+                    android:progressDrawable="@drawable/cutom_bar" />
 
                 <TextView
                     android:id="@+id/tvPercent"
@@ -120,9 +109,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|top"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/scdream4"
-                    android:text="@string/loading"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/scdream5"
+                    android:text="@string/loading" />
             </FrameLayout>
 
             <FrameLayout
@@ -139,7 +127,7 @@
                         android:id="@+id/tvMergeKWh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/scdream4"
+                        android:fontFamily="@font/scdream5"
                         android:text="@string/tvMerge"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/progressBar4"

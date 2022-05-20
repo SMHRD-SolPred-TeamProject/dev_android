@@ -65,7 +65,7 @@ public class Fragment1 extends Fragment {
     private Thread thread;
     RequestQueue queue;
     StringRequest request;
-    TextView tvMerge, tvMergeKWh, tvPercent;
+    TextView tvMerge, tvMergeKWh, tvPercent, tvAverage, tvLastDate;
     tHandler handler = new tHandler();
     ProgressBar progressAOD;
     int nowSec = 0;
@@ -77,11 +77,29 @@ public class Fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment1, container, false);
         TextView tvDate = (TextView) v.findViewById(R.id.tvAOD);
+        tvLastDate = v.findViewById(R.id.tvLastDate);
+        tvAverage = v.findViewById(R.id.tvAverage);
         tvPercent = v.findViewById(R.id.tvPercent);
         progressAOD = v.findViewById(R.id.progressAOD);
         progressAOD.setIndeterminate(false);
 
+        Long sysTime = System.currentTimeMillis();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String dTime = formatter.format(sysTime);
+        Calendar cal = Calendar.getInstance();
 
+        try {
+            Date date = formatter.parse(dTime);
+            cal.setTime(date);
+            cal.add(Calendar.DATE,-1);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String time = formatter.format(cal.getTime());
+
+        tvLastDate.setText(time);
         tvDate.setText("Today");
 
         lineChart = v.findViewById(R.id.Chart);
@@ -107,7 +125,7 @@ public class Fragment1 extends Fragment {
 //X축
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(WHITE);
+        xAxis.setTextColor(android.R.color.transparent);
         xAxis.setTextSize(10f);
         xAxis.setDrawGridLines(true);
         xAxis.setSpaceMax(60f);
@@ -117,6 +135,7 @@ public class Fragment1 extends Fragment {
         xAxis.setValueFormatter(new MyFormatter());
         xAxis.setSpaceMin(1f);
         xAxis.setSpaceMax(1f);
+
 
 //Y축
         YAxis leftAxis = lineChart.getAxisLeft();
@@ -191,6 +210,7 @@ public class Fragment1 extends Fragment {
         set.setDrawFilled(true);
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
         set.setHighLightColor(Color.rgb(244, 117, 117));
+
 
 
         return set;

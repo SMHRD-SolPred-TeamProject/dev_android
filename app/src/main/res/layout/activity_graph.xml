@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient">
+    android:background="#F7F5F2">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
@@ -43,9 +43,9 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView3"
-                android:layout_width="300dp"
+                android:layout_width="320dp"
                 android:layout_height="80dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="5dp"
                 app:layout_constraintBottom_toTopOf="@+id/pager"
@@ -55,7 +55,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#EAEEF4">
 
                     <ImageView
                         android:id="@+id/imgWeather"
