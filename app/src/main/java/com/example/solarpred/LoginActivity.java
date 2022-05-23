@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         findUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://119.200.31.177:9090/solarpred/"));
+                Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://13.125.104.63:8080/"));
                 startActivity(browser);
             }
         });
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     int method = Request.Method.POST;
-                    String url = "http://119.200.31.177:9090/solarpred/api/login";
+                    String url = "http://13.125.104.63:8080/api/login";
 
                     request = new StringRequest(method, url, new Response.Listener<String>() {
                         @Override

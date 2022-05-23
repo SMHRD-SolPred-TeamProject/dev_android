@@ -256,7 +256,7 @@ public class Fragment1 extends Fragment {
                     queue = Volley.newRequestQueue(getActivity().getApplicationContext());
 
                     int method = Request.Method.GET;
-                    String url = "http://119.200.31.177:9090/solarpred/api/dash";
+                    String url = "http://13.125.104.63:8080/api/dash";
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {

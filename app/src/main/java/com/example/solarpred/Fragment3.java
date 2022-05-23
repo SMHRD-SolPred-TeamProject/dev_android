@@ -59,7 +59,7 @@ public class Fragment3 extends Fragment {
                 if (getActivity() != null) {
                     queue = Volley.newRequestQueue(getActivity().getApplicationContext());
                     int method = Request.Method.GET;
-                    String url = "http://119.200.31.177:9090/solarpred/api/dash";
+                    String url = "http://13.125.104.63:8080/api/dash";
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
@@ -125,7 +125,7 @@ public class Fragment3 extends Fragment {
             realTotalAOD = bundle.getInt("realTotal");
             if(realTotalAOD <= 3){
                 tvSolution.setText("태양광패널이 열심히 전력을 생산하고 있습니다");
-                    imgSolution.setImageResource(R.drawable.ic_battery4);
+                imgSolution.setImageResource(R.drawable.ic_battery4);
             }else if(realTotalAOD <= 6){
                 imgSolution.setImageResource(R.drawable.ic_rice);
                 tvSolution.setText("따끈따끈 전기밥솥을 5시간 사용할 수 있는 전력량이 생산됐어요");
@@ -161,5 +161,3 @@ public class Fragment3 extends Fragment {
     }// tHandler
 
 }
-
-
